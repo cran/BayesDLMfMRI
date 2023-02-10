@@ -30,7 +30,7 @@
 #' \donttest{
 #' DatabaseGroup <- get_example_fMRI_data_group()
 #' data("covariates", package="BayesDLMfMRI")
-#' resSingle <- GroupSingleVoxelFEST(posi.ffd = c(14, 56, 40), DatabaseGroup,
+#' resSingle <- GroupSingleVoxelFETS(posi.ffd = c(14, 56, 40), DatabaseGroup,
 #'                                   covariates = Covariates, m0 = 0, Cova = 100, 
 #'                                   delta = 0.95, S0 = 1, n0 = 1, N1 = FALSE, 
 #'                                   Nsimu1 = 100, r1 = 1, Test = "JointTest", Cutpos = 30)
@@ -55,6 +55,7 @@ GroupSingleVoxelFETS <- function(posi.ffd, DatabaseGroup,
     Test=Test
   )
   
+  covariates  <- as.matrix(covariates)
   
   if(r1 == 0){
     
@@ -81,6 +82,7 @@ GroupSingleVoxelFETS <- function(posi.ffd, DatabaseGroup,
                                          res   <- .Group_FunctionalMultiTest(ffd1 = series.group, Cova = covariates, m0In = m0, c0In = Cova1, S0In = S0, 
                                                                              beta0In = Beta1, nt0In = n0, flag1 = 0, NIn = N1, NS = Ngroup, Nsimu = Nsimu1, CUTpos = Cutpos)
                                          
+                                         attr(res, "class") <- "fMRI_group_single_voxel"
                                          return(res)
                                          
                                        }
@@ -119,6 +121,7 @@ GroupSingleVoxelFETS <- function(posi.ffd, DatabaseGroup,
                                                                             if(Test=="LTT"){
                                                                               
                                                                               res <- .Gruop_FunctionalTestLT(series.group, covariates, m0, Cova1, S0, Beta1, n0, sum(flag), N1, Ngroup, Nsimu1, Cutpos)  
+                                                                              attr(res, "class") <- "fMRI_group_single_voxel"
                                                                               return(res)
                                                                             }
                                                                             
@@ -126,7 +129,7 @@ GroupSingleVoxelFETS <- function(posi.ffd, DatabaseGroup,
                                                                               
                                                                               res   <- .Group_FunctionalMultiTest(ffd1 = series.group, Cova = covariates, m0In = m0, c0In = Cova1, S0In = S0, 
                                                                                                               beta0In = Beta1, nt0In = n0, flag1 = sum(flag), NIn = N1, NS = Ngroup, Nsimu = Nsimu1, CUTpos = Cutpos)
-                                                                              
+                                                                              attr(res, "class") <- "fMRI_group_single_voxel"
                                                                               return(res)
                                                                               
                                                                             }
